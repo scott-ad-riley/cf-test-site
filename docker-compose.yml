@@ -1,0 +1,26 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      args:
+        - LUCEE_ADMIN_PASSWORD=password!
+    ports:
+      - "3000:8888"
+    volumes:
+      - ./www:/var/www
+    environment:
+      - DB_URL=postgresql://db:5432/cf_test_site
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      - db
+
+  db:
+    build:
+      dockerfile: db.Dockerfile
+    ports:
+      - "5555:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cf_test_site
